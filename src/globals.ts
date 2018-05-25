@@ -1,21 +1,97 @@
 import Bird from "./game/bird";
 import Pipe from "./game/pipe";
 
+interface Config {
+    pipeSpacing: number;
+    pipeWidth: number;
+    pipeSpeed: number;
+    pipeDistance: number;
+    birdRadius: number;
+    birdGravity: number;
+    birdLift: number;
+}
+
+const defaultConfig: Config = {
+    pipeSpacing: 125,
+    pipeWidth: 80,
+    pipeSpeed: 6,
+    pipeDistance: 50,
+    birdRadius: 12,
+    birdGravity: 0.8,
+    birdLift: -12,
+}
+
 export default class g {
-    private static _totalPopulation: number = 500;
     private static _activeBirds: Bird[] = [];
     private static _allBirds: Bird[] = [];
     private static _bestBird: Bird = null;
     private static _pipes: Pipe[] = [];
-    private static _counter: number = 0;
+    private static _frameCounter: number = 0;
     private static _highScore = 0;
-    private static _runBest = false;
-
-    static get totalPopulation() {
-        return this._totalPopulation;
+    private static _bgImg: p5.Image;
+    private static _birgImg: p5.Image;
+    private static _pipeTopImg: p5.Image;
+    private static _pipeBotImg: p5.Image;
+    //Editable
+    private static _pipeSpacing: number;
+    private static _pipeWidth: number;
+    private static _pipeSpeed: number;
+    private static _pipeDistance: number;
+    private static _birdRadius: number;
+    private static _birdGravity: number;
+    private static _birdLift: number;
+    
+    static config(c: Config = defaultConfig) {
+        this._pipeSpacing = c.pipeSpacing;
+        this._pipeWidth = c.pipeWidth;
+        this._pipeSpeed = c.pipeSpeed;
+        this._pipeDistance = c.pipeDistance;
+        this._birdRadius = c.birdRadius;
+        this._birdGravity = c.birdGravity;
+        this._birdLift = c.birdLift;
     }
-    static set totalPopulation(totalPopulation) {
-        this._totalPopulation = totalPopulation;
+
+    static get pipeSpacing() {
+        return this._pipeSpacing;
+    }
+    static set pipeSpacing(pipeSpacing) {
+        this._pipeSpacing = pipeSpacing;
+    }
+    static get pipeWidth() {
+        return this._pipeWidth;
+    }
+    static set pipeWidth(pipeWidth) {
+        this._pipeWidth = pipeWidth;
+    }
+    static get pipeSpeed() {
+        return this._pipeSpeed;
+    }
+    static set pipeSpeed(pipeSpeed) {
+        this._pipeSpeed = pipeSpeed;
+    }
+    static get pipeDistance() {
+        return this._pipeDistance;
+    }
+    static set pipeDistance(pipeDistance) {
+        this._pipeDistance = pipeDistance;
+    }
+    static get birdRadius() {
+        return this._birdRadius;
+    }
+    static set birdRadius(birdRadius) {
+        this._birdRadius = birdRadius;
+    }
+    static get birdGravity() {
+        return this._birdGravity;
+    }
+    static set birdGravity(birdGravity) {
+        this._birdGravity = birdGravity;
+    }
+    static get birdLift() {
+        return this._birdLift;
+    }
+    static set birdLift(birdLift) {
+        this._birdLift = birdLift;
     }
     static get activeBirds() {
         return this._activeBirds;
@@ -41,11 +117,11 @@ export default class g {
     static set pipes(pipes) {
         this._pipes = pipes;
     }
-    static get counter() {
-        return this._counter;
+    static get frameCounter() {
+        return this._frameCounter;
     }
-    static set counter(counter) {
-        this._counter = counter;
+    static set frameCounter(counter) {
+        this._frameCounter = counter;
     }
     static get highScore() {
         return this._highScore;
@@ -53,10 +129,28 @@ export default class g {
     static set highScore(highScore) {
         this._highScore = highScore;
     }
-    static get runBest() {
-        return this._runBest;
+    static get birgImg() {
+        return this._birgImg;
     }
-    static set runBest(runBest) {
-        this._runBest = runBest;
+    static set birgImg(birgImg) {
+        this._birgImg = birgImg;
+    }
+    static get pipeTopImg() {
+        return this._pipeTopImg;
+    }
+    static set pipeTopImg(pipeTopImg) {
+        this._pipeTopImg = pipeTopImg;
+    }
+    static get pipeBotImg() {
+        return this._pipeBotImg;
+    }
+    static set pipeBotImg(pipeBotImg) {
+        this._pipeBotImg = pipeBotImg;
+    }
+    static get bgImg() {
+        return this._bgImg;
+    }
+    static set bgImg(bgImg) {
+        this._bgImg = bgImg;
     }
 }

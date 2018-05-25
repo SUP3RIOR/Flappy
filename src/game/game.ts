@@ -10,7 +10,7 @@ export function nextGeneration() {
 }
 
 export function resetGame() {
-    g.counter = 0;
+    g.frameCounter = 0;
     if (g.bestBird) {
         g.bestBird.score = 0;
     }

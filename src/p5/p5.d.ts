@@ -552,7 +552,7 @@ declare class p5 {
    *   @param [max] range for all values
    *   @chainable
    */
-  colorMode(mode: COLOR_MODE, max?: number): p5
+  colorMode(mode: any, max?: number): p5
   
   /**
    *   colorMode() changes the way p5.js interprets color 
@@ -868,7 +868,7 @@ declare class p5 {
    *   way of drawing the arc. either CHORD, PIE or OPEN
    *   @chainable
    */
-  arc(x: number, y: number, w: number, h: number, start: number, stop: number, mode?: ARC_MODE): p5
+  arc(x: number, y: number, w: number, h: number, start: number, stop: number, mode?: any): p5
   
   /**
    *   Draws an ellipse (oval) to the screen. An ellipse 
@@ -1112,7 +1112,7 @@ declare class p5 {
    *   CORNERS
    *   @chainable
    */
-  ellipseMode(mode: ELLIPSE_MODE): p5
+  ellipseMode(mode: any): p5
   
   /**
    *   Draws all geometry with jagged (aliased) edges. 
@@ -1159,7 +1159,7 @@ declare class p5 {
    *   RADIUS
    *   @chainable
    */
-  rectMode(mode: RECT_MODE): p5
+  rectMode(mode: any): p5
   
   /**
    *   Draws all geometry with smooth (anti-aliased) 
@@ -1182,7 +1182,7 @@ declare class p5 {
    *   @param cap either SQUARE, PROJECT, or ROUND
    *   @chainable
    */
-  strokeCap(cap: STROKE_CAP): p5
+  strokeCap(cap: any): p5
   
   /**
    *   Sets the style of the joints which connect line 
@@ -1194,7 +1194,7 @@ declare class p5 {
    *   @param join either MITER, BEVEL, ROUND
    *   @chainable
    */
-  strokeJoin(join: STROKE_JOIN): p5
+  strokeJoin(join: any): p5
   
   /**
    *   Sets the width of the stroke used for lines, 
@@ -1922,7 +1922,7 @@ declare class p5 {
    *   @param h height of the canvas
    *   @param [renderer] either P2D or WEBGL
    */
-  createCanvas(w: number, h: number, renderer?: RENDERER): p5.Renderer
+  createCanvas(w: number, h: number, renderer?: any): p5.Renderer
   
   /**
    *   Resizes the canvas to given width and height. The 
@@ -1956,7 +1956,7 @@ declare class p5 {
    *   defaults to p2d
    *   @return offscreen graphics buffer
    */
-  createGraphics(w: number, h: number, renderer?: RENDERER): p5.Graphics
+  createGraphics(w: number, h: number, renderer?: any): p5.Graphics
   
   /**
    *   Blends the pixels in the display window according 
@@ -1997,7 +1997,7 @@ declare class p5 {
    *   EXCLUSION, SCREEN, REPLACE, OVERLAY, HARD_LIGHT, 
    *   SOFT_LIGHT, DODGE, BURN, ADD or NORMAL
    */
-  blendMode(mode: BLEND_MODE): void
+  blendMode(mode: any): void
   
   // src/core/structure.js
   
@@ -2401,7 +2401,7 @@ declare class p5 {
    *   TRIANGLE_FAN TRIANGLE_STRIP, QUADS, or QUAD_STRIP
    *   @chainable
    */
-  beginShape(kind?: BEGIN_KIND): p5
+  beginShape(kind?: any): p5
   
   /**
    *   Specifies vertex coordinates for Bezier curves. 
@@ -2482,7 +2482,7 @@ declare class p5 {
    *   @param [mode] use CLOSE to close the shape
    *   @chainable
    */
-  endShape(mode?: END_MODE): p5
+  endShape(mode?: any): p5
   
   /**
    *   Specifies vertex coordinates for quadratic Bezier 
@@ -3437,7 +3437,7 @@ declare class p5 {
    *
    *   @param mode either CORNER, CORNERS, or CENTER
    */
-  imageMode(mode: IMAGE_MODE): void
+  imageMode(mode: any): void
   
   // src/image/pixels.js
   
@@ -3511,7 +3511,7 @@ declare class p5 {
    *   EXCLUSION, SCREEN, REPLACE, OVERLAY, HARD_LIGHT, 
    *   SOFT_LIGHT, DODGE, BURN, ADD or NORMAL.
    */
-  blend(srcImage: p5.Image, sx: number, sy: number, sw: number, sh: number, dx: number, dy: number, dw: number, dh: number, blendMode: BLEND_MODE): void
+  blend(srcImage: p5.Image, sx: number, sy: number, sw: number, sh: number, dx: number, dy: number, dw: number, dh: number, blendMode: any): void
   
   /**
    *   Copies a region of pixels from one image to 
@@ -3646,7 +3646,7 @@ declare class p5 {
    *   @param [filterParam] an optional parameter unique 
    *   to each filter, see above
    */
-  filter(filterType: FILTER_TYPE, filterParam?: number): void
+  filter(filterType: any, filterParam?: number): void
   
   /**
    *   Returns an array of [R,G,B,A] values for any pixel 
@@ -4798,7 +4798,7 @@ declare class p5 {
    *
    *   @param mode either RADIANS or DEGREES
    */
-  angleMode(mode: ANGLE_MODE): void
+  angleMode(mode: any): void
   
   // src/typography/attributes.js
   
@@ -4824,7 +4824,7 @@ declare class p5 {
    *   BOTTOM, CENTER, or BASELINE
    *   @chainable
    */
-  textAlign(horizAlign: HORIZ_ALIGN, vertAlign?: VERT_ALIGN): p5
+  textAlign(horizAlign: any, vertAlign?: any): p5
   
   /**
    *   Sets the current alignment for drawing text. 
@@ -4894,7 +4894,7 @@ declare class p5 {
    *   ITALIC, or BOLD
    *   @chainable
    */
-  textStyle(theStyle: THE_STYLE): p5
+  textStyle(theStyle: any): p5
   
   /**
    *   Sets/gets the style of the text for system fonts 
@@ -7541,7 +7541,7 @@ declare namespace p5 {
      *   @param [filterParam] an optional parameter unique 
      *   to each filter, see above
      */
-    filter(filterType: FILTER_TYPE, filterParam?: number): void
+    filter(filterType: any, filterParam?: number): void
     
     /**
      *   Copies a region of pixels from one image to 
@@ -7574,7 +7574,7 @@ declare namespace p5 {
      * 
      *   http://blogs.adobe.com/webplatform/2013/01/28/blending-features-in-canvas/
      */
-    blend(srcImage: p5.Image, sx: number, sy: number, sw: number, sh: number, dx: number, dy: number, dw: number, dh: number, blendMode: BLEND_MODE): void
+    blend(srcImage: p5.Image, sx: number, sy: number, sw: number, sh: number, dx: number, dy: number, dw: number, dh: number, blendMode: any): void
     
     /**
      *   Copies a region of pixels from one image to 
@@ -10309,7 +10309,7 @@ declare namespace p5 {
      *   @param [timeFromNow] schedule this event to happen 
      *   seconds from now
      */
-    amp(volume: number|object, rampTime?: number, timeFromNow?: number): void
+    //amp(volume: number|object, rampTime?: number, timeFromNow?: number): void
     
     /**
      *   Send output to a p5.sound or web audio object

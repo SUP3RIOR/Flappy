@@ -1,31 +1,45 @@
 import Bird from "./game/bird";
-import { nextGeneration, resetGame } from "./game/game";
+import { nextGeneration } from "./game/game";
 import Pipe from "./game/pipe";
 import g from "./globals";
+import './material';
+import { highScoreSpan, initUI, scoreBestSpan, speedSliderValue, totalPopulationValue } from "./material";
 
-export var speedSlider: p5.Element;
-export var speedSpan: p5.Element;
-export var highScoreSpan: p5.Element;
-export var allTimeHighScoreSpan: p5.Element;
-export var runBestButton: p5.Element;
+export var sketch: p5;
+var allBirdsBuffer: any;
+var bestBirdBuffer: any;
+var tempCycles: number = 0;
+
+function start() {
+    document.getElementById('start').style.display = 'none';
+    sketch = new p5(init);
+}
+document.getElementById('startBtn').addEventListener('click', start);
+
+function restart() {
+    sketch.noLoop();
+    document.getElementById('canvas').innerHTML = '';
+    sketch = new p5(init);
+}
 
 function init(p: p5) {
     p.preload = () => {
-
+        g.bgImg = p.loadImage('./bg.png');
+        g.birgImg = p.loadImage('./bird.png');
+        g.pipeTopImg = p.loadImage('./pipeTop.png');
+        g.pipeBotImg = p.loadImage('./pipeBot.png');
     }
     
     p.setup = () => {
-        let canvas = p.createCanvas(600, 400);
-        canvas.parent('root');
-        speedSlider = p.select('#speedSlider');
-        speedSpan = p.select('#speed');
-        highScoreSpan = p.select('#hs');
-        allTimeHighScoreSpan = p.select('#ahs');
-        runBestButton = p.select('#best');
-        runBestButton.mousePressed(toggleState);
+        g.config();
+        let canvas = p.createCanvas(1201, 400);
+        canvas.parent('canvas');
+        allBirdsBuffer = p.createGraphics(600, 400);
+        bestBirdBuffer = p.createGraphics(600, 400);
+        initUI(p);
 
         // Create a population
-        for (let i = 0; i < g.totalPopulation; i++) {
+        for (let i = 0; i < totalPopulationValue; i++) {
             let bird = new Bird();
             g.activeBirds.push(bird);
             g.allBirds.push(bird);
@@ -33,52 +47,48 @@ function init(p: p5) {
     }
     
     p.draw = () => {
-        p.background(0);
-
-        let cycles: number = +speedSlider.value();
-        speedSpan.html(cycles.toString());
-
-        for (let n = 0; n < cycles; n++) {
-            showAllPipes();
-            if (g.runBest) {
-                runBestBird();
-            } else {
-                runAllBirds();
-            }
-
-            addPipe();
-        }
-
         getBest();
+        p.background(0);
+        allBirdsBuffer.image(g.bgImg,0,0,600,400);
+        bestBirdBuffer.image(g.bgImg,0,0,600,400);        
+        
+        let cycles: number = speedSliderValue + tempCycles;
+        if (cycles >= 1) {
+            tempCycles = 0;
+            for (let n = 0; n < cycles; n++) {
+                showAllPipes();
+                
+                runAllBirds();
+                if (g.bestBird) {
+                    runBestBird();
+                }
+    
+                addPipe();
+            }
+        } else {
+            tempCycles += cycles;
+        }
 
         // Draw everything!
         for (let pipe of g.pipes) {
-            pipe.draw();
+            pipe.draw(allBirdsBuffer);
+            pipe.draw(bestBirdBuffer);
+        }    
+        if (g.bestBird) {
+            g.bestBird.draw(bestBirdBuffer);
         }
-    
-        if (g.runBest) {
-            g.bestBird.draw();
-        } else {
-            for (let bird of g.activeBirds) {
-                bird.draw();
-            }
-            if (g.activeBirds.length == 0) {
-                nextGeneration();
-            }
+        for (let bird of g.activeBirds) {
+            bird.draw(allBirdsBuffer);
         }
-    }
-}
 
-function toggleState() {
-    g.runBest = !g.runBest;
-    // Show the best bird
-    if (g.runBest) {
-      resetGame();
-      runBestButton.html('continue training');
-      // Go train some more
-    } else {
-      nextGeneration();
-      runBestButton.html('run best');
+        // DrawBuffer to canvas
+        p.image(allBirdsBuffer, 0, 0);
+        p.image(bestBirdBuffer, 601, 0);
+
+        // nextGeneration?
+        if (g.activeBirds.length == 0) {
+            nextGeneration();
+        }
     }
 }
 
@@ -91,10 +101,10 @@ function showAllPipes() {
     }
 }
 function addPipe() {
-    if (g.counter % 75 == 0) {
+    if (g.frameCounter % g.pipeDistance == 0) {
         g.pipes.push(new Pipe());
     }
-    g.counter += 1;
+    g.frameCounter += 1;
 }
 
 function runBestBird() {
@@ -102,12 +112,12 @@ function runBestBird() {
     g.bestBird.update();
     for (let j = 0; j < g.pipes.length; j++) {
         if (g.pipes[j].collision(g.bestBird)) {
-            resetGame();
-            break;
+            g.bestBird = null;
+            return;
         }
     }
     if (g.bestBird.bottop()) {
-        resetGame();
+        g.bestBird = null;
     }
 }
 function runAllBirds() {
@@ -130,32 +140,20 @@ function runAllBirds() {
 }
 function getBest() {
     let tempHighScore = 0;
-    if (!g.runBest) {
-        // Which is the best bird?
-        let tempBestBird = null;
-        for (let i = 0; i < g.activeBirds.length; i++) {
-            let s = g.activeBirds[i].score;
-            if (s > tempHighScore) {
-                tempHighScore = s;
-                tempBestBird = g.activeBirds[i];
-            }
-        }
-
-        // Is it the all time high scorer?
-        if (tempHighScore > g.highScore) {
-            g.highScore = tempHighScore;
-            g.bestBird = tempBestBird;
-        }
-    } else {
-        // Just one bird, the best one so far
-        tempHighScore = g.bestBird.score;
-        if (tempHighScore > g.highScore) {
-            g.highScore = tempHighScore;
+    let tempBestBird = null;
+    for (let bird of g.activeBirds) {
+        if (bird.score > tempHighScore) {
+            tempHighScore = bird.score;
+            tempBestBird = bird;
         }
     }
-
-    highScoreSpan.html(tempHighScore.toString());
-    allTimeHighScoreSpan.html(g.highScore.toString());
+    g.bestBird = tempBestBird;
+    if (tempHighScore > g.highScore) {
+        g.highScore = tempHighScore;        
+    }
+    
+    highScoreSpan.html(g.highScore.toString());
+    if (g.bestBird) {
+        scoreBestSpan.html(g.bestBird.score.toString());
+    }
 }
-
-export const sketch = new p5(init);

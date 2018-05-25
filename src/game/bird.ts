@@ -1,22 +1,18 @@
 import { sketch } from "../app";
+import g from "../globals";
+import { hiddenNodesValue } from "../material";
 import NeuralNetwork from "../neuralnetwork/neuralnetwork";
 import Pipe from "./pipe";
-
-const BirdConfig = {
-    radius: 12,
-    gravity: 0.8,
-    lift: -12,
-};
 
 export default class Bird {
     brain: NeuralNetwork;
     
     positionX: number = 64;
     positionY: number = sketch.height/2;
-    radius: number = BirdConfig.radius;
+    radius: number = g.birdRadius;
 
-    gravity: number = BirdConfig.gravity;
-    lift: number = BirdConfig.lift;
+    gravity: number = g.birdGravity;
+    lift: number = g.birdLift;
     velocity: number = 0;
 
     score: number = 0;
@@ -27,7 +23,7 @@ export default class Bird {
             this.brain = brain.copy();
             this.brain.mutate(Bird.mutate)
         } else {
-            this.brain = new NeuralNetwork(5, 8, 2);
+            this.brain = new NeuralNetwork(5, hiddenNodesValue, 2);
         }
     }
 
@@ -37,10 +33,14 @@ export default class Bird {
     }
 
     //Zeichnet den Vogel
-    draw(): void {
-        sketch.fill(255, 100);
-        sketch.stroke(255);
-        sketch.ellipse(this.positionX, this.positionY, this.radius * 2, this.radius * 2);
+    draw(buffer: any): void {
+        buffer.image(
+            g.birgImg, 
+            this.positionX - this.radius, 
+            this.positionY - this.radius, 
+            this.radius * 2 + this.radius * 2/3, 
+            this.radius * 2
+        );
     }
 
     //Die funktion mit der der Vogel denkt

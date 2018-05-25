@@ -1,24 +1,18 @@
 import { sketch } from "../app";
+import g from "../globals";
 import Bird from "./bird";
-
-const PipeConfig = {
-    spacing: 125,
-    width: 80,
-    speed: 6
-};
-
 
 export default class Pipe {
     top: number;
     bot: number;
     position: number = sketch.width;
-    width: number = PipeConfig.width;
-    speed: number = PipeConfig.speed;
+    width: number = g.pipeWidth;
+    speed: number = g.pipeSpeed;
 
     constructor() {
-        let center = sketch.random(PipeConfig.spacing, sketch.height - PipeConfig.spacing);
-        this.top = center - PipeConfig.spacing / 2;
-        this.bot = sketch.height - (center + PipeConfig.spacing / 2);
+        let center = sketch.random(g.pipeSpacing, sketch.height - g.pipeSpacing);
+        this.top = center - g.pipeSpacing / 2;
+        this.bot = sketch.height - (center + g.pipeSpacing / 2);
     }
 
     //Kollision mit Vogel?
@@ -32,11 +26,9 @@ export default class Pipe {
     }
 
     //Zeichnet das Rohr
-    draw(): void {
-        sketch.stroke(255);
-        sketch.fill(200);
-        sketch.rect(this.position, 0, this.width, this.top);
-        sketch.rect(this.position, sketch.height - this.bot, this.width, this.bot);
+    draw(buffer: any): void {
+        buffer.image(g.pipeTopImg, this.position,-(g.pipeTopImg.height - this.top), this.width);
+        buffer.image(g.pipeBotImg, this.position, sketch.height - this.bot, this.width);
     }
 
     //Ist das Rohr noch zu sehen

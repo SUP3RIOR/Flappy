@@ -1,0 +1,62 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500');
+@import "@material/button/mdc-button";
+@import "@material/top-app-bar/mdc-top-app-bar";
+@import "@material/card/mdc-card";
+@import "@material/elevation/mdc-elevation";
+@import "@material/slider/mdc-slider";
+@import "@material/typography/mdc-typography";
+
+* {
+    font-family: 'Roboto', sans-serif;
+}
+
+$canvasWidth: 1201px;
+
+#start {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+}
+
+#canvas-wrapper {
+    width: $canvasWidth;
+    margin: 20px auto;
+
+    #canvas {
+        width: $canvasWidth;
+        height: 400px;
+    }
+
+    #info {
+        display: flex;
+        div {
+            width: 33%;
+            text-align: center;
+        }
+    }
+
+    #speedSlider {
+        margin: 0px 10px 0px 10px;
+        width: $canvasWidth - 20;
+    }
+}
+
+#controls-wrapper {
+    width: $canvasWidth;
+    margin: auto;
+    text-align: center;
+    display: flex;
+    flex-direction: row;
+
+    #pipe-controls {
+        width: $canvasWidth / 2 - 20px;
+        margin: 10px;
+    }
+    
+    #bird-controls {
+        width: $canvasWidth / 2 - 20px;
+        margin: 10px;
+    }
+}
+
