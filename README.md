@@ -7,3 +7,8 @@
 3. bottom of closest pipe opening
 4. bird's y position
 5. bird's y velocity
+
+
+
+npm install
+npm start
