@@ -2,13 +2,14 @@ import Bird from "./game/bird";
 import { nextGeneration } from "./game/game";
 import Pipe from "./game/pipe";
 import g from "./globals";
-import './material';
-import { highScoreSpan, initUI, scoreBestSpan, speedSliderValue, totalPopulationValue } from "./material";
+import { birdsAliveSpan, highScoreSpan, initUI, scoreBestSpan, speedSliderValue, totalPopulationValue } from "./ui";
 
 export var sketch: p5;
 var allBirdsBuffer: any;
 var bestBirdBuffer: any;
 var tempCycles: number = 0;
+
+g.config();
 
 function start() {
     document.getElementById('start').style.display = 'none';
@@ -31,7 +32,6 @@ function init(p: p5) {
     }
     
     p.setup = () => {
-        g.config();
         let canvas = p.createCanvas(1201, 400);
         canvas.parent('canvas');
         allBirdsBuffer = p.createGraphics(600, 400);
@@ -70,6 +70,8 @@ function init(p: p5) {
         }
 
         // Draw everything!
+        birdsAliveSpan.html(g.activeBirds.length.toString());
+
         for (let pipe of g.pipes) {
             pipe.draw(allBirdsBuffer);
             pipe.draw(bestBirdBuffer);

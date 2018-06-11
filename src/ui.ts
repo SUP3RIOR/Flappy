@@ -5,6 +5,9 @@ import g from './globals';
 
 export var highScoreSpan: p5.Element;
 export var scoreBestSpan: p5.Element;
+export var birdsAliveSpan: p5.Element;
+export var playerScoreSpan: p5.Element;
+export var playerHighscoreSpan: p5.Element;
 export var speedSliderValue: number = 1;
 export var totalPopulationValue: number = 500;
 export var hiddenNodesValue: number = 8;
@@ -12,13 +15,7 @@ export var hiddenNodesValue: number = 8;
 export function initUI(p: p5) {
     highScoreSpan = p.select('#hs');
     scoreBestSpan = p.select('#hsbest');
-    pipeSpacingSlider.disabled = false;
-    pipeWidthSlider.disabled = false;
-    pipeSpeedSlider.disabled = false;
-    pipeDistanceSlider.disabled = false;
-    birdRadiusSlider.disabled = false;
-    birdGravitySlider.disabled = false;
-    birdLiftSlider.disabled = false;
+    birdsAliveSpan = p.select('#birdsAliveSpan');
 }
 
 // AppBar

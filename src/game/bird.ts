@@ -1,11 +1,11 @@
 import { sketch } from "../app";
+import Brain from "../brain/brain";
 import g from "../globals";
-import { hiddenNodesValue } from "../material";
-import NeuralNetwork from "../neuralnetwork/neuralnetwork";
+import { hiddenNodesValue } from "../ui";
 import Pipe from "./pipe";
 
 export default class Bird {
-    brain: NeuralNetwork;
+    brain: Brain;
     
     positionX: number = 64;
     positionY: number = sketch.height/2;
@@ -18,12 +18,12 @@ export default class Bird {
     score: number = 0;
     fitness: number = 0;
 
-    constructor(brain?: NeuralNetwork) {
+    constructor(brain?: Brain) {
         if (brain) {
             this.brain = brain.copy();
             this.brain.mutate(Bird.mutate)
         } else {
-            this.brain = new NeuralNetwork(5, hiddenNodesValue, 2);
+            this.brain = new Brain(5, hiddenNodesValue, 2);
         }
     }
 
@@ -64,8 +64,7 @@ export default class Bird {
             inputs[4] = sketch.map(this.velocity, -5, 5, 0, 1);
 
             // Get the outputs from the network
-            let action = this.brain.predict(inputs);
-            if (action[1] > action[0]) {
+            if (this.brain.think(inputs)) {
                 this.jump();
             }
         }
@@ -91,12 +90,6 @@ export default class Bird {
 
     //Funktion die den Vogel mutieren lässt
     static mutate(x: number): number {
-        if (sketch.random(1) < 0.1) {
-            let offset = sketch.randomGaussian(0,1) * 0.5;
-            let newx = x + offset;
-            return newx;
-        } else {
-            return x;
-        }
+        return Brain.mutate(x);
     }
 }

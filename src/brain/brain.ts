@@ -1,3 +1,4 @@
+import { sketch } from "../app";
 import Matrix from "./matrix";
 
 interface ActivationFunction {
@@ -15,7 +16,7 @@ let tanh: ActivationFunction = {
     dfunc: y => 1 - (y * y)
 }
 
-export default class NeuralNetwork {
+export default class Brain {
     learning_rate: number;
     activation_function: ActivationFunction;
     input_nodes: number;
@@ -53,7 +54,7 @@ export default class NeuralNetwork {
         this.activation_function = func;
     }
 
-    predict(input_array: number[]): number[] {
+    think(input_array: number[]): boolean {
         // Generating the Hidden Outputs
         let inputs = Matrix.fromArray(input_array);
         let hidden = Matrix.multiply(this.weights_input_hidden, inputs);
@@ -65,7 +66,12 @@ export default class NeuralNetwork {
         output.add(this.bias_output);
         output.map(this.activation_function.func);
 
-        return output.toArray();
+        let action = output.toArray();
+        if (action[1] > action[0]) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     train(input_array: number[], target_array: number[]) {
@@ -125,7 +131,7 @@ export default class NeuralNetwork {
     
     static deserialize(value: string) {
         let data = JSON.parse(value);
-        let nn = new NeuralNetwork(data.input_nodes, data.hidden_nodes, data.output_nodes);
+        let nn = new Brain(data.input_nodes, data.hidden_nodes, data.output_nodes);
         nn.weights_input_hidden = Matrix.deserialize(data.weights_ih);
         nn.weights_hidden_output = Matrix.deserialize(data.weights_ho);
         nn.bias_hidden = Matrix.deserialize(data.bias_h);
@@ -135,7 +141,7 @@ export default class NeuralNetwork {
     }
     
     copy() {
-        let nn = new NeuralNetwork(this.input_nodes,this.hidden_nodes,this.output_nodes);
+        let nn = new Brain(this.input_nodes,this.hidden_nodes,this.output_nodes);
         nn.weights_input_hidden = this.weights_input_hidden.copy();
         nn.weights_hidden_output = this.weights_hidden_output.copy();
         nn.bias_hidden = this.bias_hidden.copy();
@@ -148,5 +154,15 @@ export default class NeuralNetwork {
         this.weights_hidden_output.map(func);
         this.bias_hidden.map(func);
         this.bias_output.map(func);
+    }
+
+    static mutate(x: number): number {
+        if (sketch.random(1) < 0.1) {
+            let offset = sketch.randomGaussian(0,1) * 0.5;
+            let newx = x + offset;
+            return newx;
+        } else {
+            return x;
+        }
     }
 }

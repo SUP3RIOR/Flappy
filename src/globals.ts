@@ -12,12 +12,12 @@ interface Config {
 }
 
 const defaultConfig: Config = {
-    pipeSpacing: 125,
+    pipeSpacing: 150,
     pipeWidth: 80,
     pipeSpeed: 6,
     pipeDistance: 50,
     birdRadius: 12,
-    birdGravity: 0.8,
+    birdGravity: 0.4,
     birdLift: -12,
 }
 
