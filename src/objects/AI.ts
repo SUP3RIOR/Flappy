@@ -1,6 +1,6 @@
-import { sketch } from "../app";
+import { sketch } from "../components/Game";
 import g from "../globals";
-import Bird from "./bird";
+import Bird from "./Bird";
 
 export function nextGeneration() {
     resetGame();
@@ -9,7 +9,7 @@ export function nextGeneration() {
     g.allBirds = g.activeBirds.slice();
 }
 
-export function resetGame() {
+function resetGame() {
     g.frameCounter = 0;
     if (g.bestBird) {
         g.bestBird.score = 0;

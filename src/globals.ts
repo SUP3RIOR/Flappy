@@ -1,5 +1,5 @@
-import Bird from "./game/bird";
-import Pipe from "./game/pipe";
+import Bird from "./objects/Bird";
+import Pipe from "./objects/Pipe";
 
 interface Config {
     pipeSpacing: number;
@@ -9,16 +9,7 @@ interface Config {
     birdRadius: number;
     birdGravity: number;
     birdLift: number;
-}
-
-const defaultConfig: Config = {
-    pipeSpacing: 150,
-    pipeWidth: 80,
-    pipeSpeed: 6,
-    pipeDistance: 50,
-    birdRadius: 12,
-    birdGravity: 0.4,
-    birdLift: -12,
+    jumpCooldown: number;
 }
 
 export default class g {
@@ -28,6 +19,7 @@ export default class g {
     private static _pipes: Pipe[] = [];
     private static _frameCounter: number = 0;
     private static _highScore = 0;
+    private static _generationCounter: number = 0;
     private static _bgImg: p5.Image;
     private static _birgImg: p5.Image;
     private static _pipeTopImg: p5.Image;
@@ -40,8 +32,9 @@ export default class g {
     private static _birdRadius: number;
     private static _birdGravity: number;
     private static _birdLift: number;
+    private static _jumpCooldown: number;
     
-    static config(c: Config = defaultConfig) {
+    static config(c: Config) {
         this._pipeSpacing = c.pipeSpacing;
         this._pipeWidth = c.pipeWidth;
         this._pipeSpeed = c.pipeSpeed;
@@ -49,6 +42,7 @@ export default class g {
         this._birdRadius = c.birdRadius;
         this._birdGravity = c.birdGravity;
         this._birdLift = c.birdLift;
+        this._jumpCooldown = c.jumpCooldown;
     }
 
     static get pipeSpacing() {
@@ -152,5 +146,17 @@ export default class g {
     }
     static set bgImg(bgImg) {
         this._bgImg = bgImg;
+    }
+    static get generationCounter() {
+        return this._generationCounter;
+    }
+    static set generationCounter(generationCounter) {
+        this._generationCounter = generationCounter;
+    }
+    static get jumpCooldown() {
+        return this._jumpCooldown;
+    }
+    static set jumpCooldown(jumpCooldown) {
+        this._jumpCooldown = jumpCooldown;
     }
 }

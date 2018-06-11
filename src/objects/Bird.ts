@@ -1,7 +1,6 @@
-import { sketch } from "../app";
-import Brain from "../brain/brain";
+import { sketch } from "../components/Game";
 import g from "../globals";
-import { hiddenNodesValue } from "../ui";
+import Brain from "./Brain";
 import Pipe from "./pipe";
 
 export default class Bird {
@@ -14,6 +13,7 @@ export default class Bird {
     gravity: number = g.birdGravity;
     lift: number = g.birdLift;
     velocity: number = 0;
+    cooldown: number = 0;
 
     score: number = 0;
     fitness: number = 0;
@@ -23,7 +23,7 @@ export default class Bird {
             this.brain = brain.copy();
             this.brain.mutate(Bird.mutate)
         } else {
-            this.brain = new Brain(5, hiddenNodesValue, 2);
+            this.brain = new Brain(5, 8, 2);
         }
     }
 
@@ -72,7 +72,10 @@ export default class Bird {
 
     //Lässte den Vogel Springen
     jump(): void {
-        this.velocity += this.lift;
+        if (this.cooldown === 0) {
+            this.velocity += this.lift;
+            this.cooldown = 30;
+        }
     }
 
     //Berührt der Vogel Oberen oder unteren Rand
@@ -84,6 +87,10 @@ export default class Bird {
     update() {
         this.velocity += this.gravity;
         this.positionY += this.velocity;
+
+        if (this.cooldown > 0) {
+            this.cooldown--;
+        }
 
         this.score++;
     }

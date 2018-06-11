@@ -10,7 +10,7 @@ const ASSETS = path.join(SRC,'assets');
 
 module.exports = [{
     mode: 'development',
-    entry: path.resolve(SRC, 'app.ts'),
+    entry: path.resolve(SRC, 'index.tsx'),
     devtool: 'inline-source-map',
     module: {
         rules: [
@@ -22,10 +22,10 @@ module.exports = [{
         ]
     },
     resolve: {
-        extensions: [ '.ts', '.js' ]
+        extensions: ['.tsx', '.ts', '.js' ]
     },
     output: {
-        filename: 'app.js',
+        filename: 'index.js',
         path: DIST
     },
     plugins: [
