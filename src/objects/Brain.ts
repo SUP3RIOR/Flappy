@@ -124,21 +124,6 @@ export default class Brain {
         // Adjust the bias by its deltas (which is just the gradients)
         this.bias_hidden.add(hidden_gradient);
     }
-
-    serialize(): string {
-        return JSON.stringify(this);
-    }
-    
-    static deserialize(value: string) {
-        let data = JSON.parse(value);
-        let nn = new Brain(data.input_nodes, data.hidden_nodes, data.output_nodes);
-        nn.weights_input_hidden = Matrix.deserialize(data.weights_ih);
-        nn.weights_hidden_output = Matrix.deserialize(data.weights_ho);
-        nn.bias_hidden = Matrix.deserialize(data.bias_h);
-        nn.bias_output = Matrix.deserialize(data.bias_o);
-        nn.learning_rate = data.learning_rate;
-        return nn;
-    }
     
     copy() {
         let nn = new Brain(this.input_nodes,this.hidden_nodes,this.output_nodes);
