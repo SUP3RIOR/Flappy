@@ -1,4 +1,4 @@
-import { sketch } from "../components/Game";
+import { sketch } from "./Game";
 import Matrix from "./matrix";
 
 interface ActivationFunction {

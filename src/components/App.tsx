@@ -1,6 +1,8 @@
 import * as React from 'react';
+import g from '../globals';
+import Game from '../objects/Game';
+import Canvas from './Canvas';
 import Config from './Config';
-import Game from './Game';
 import Info from './Info';
 
 interface State {
@@ -17,12 +19,17 @@ export default class App extends React.Component<{},State> {
         highscore: 0,
         gameSpeed: 1,
     }
+    
+    start = () => {
+        new Game(this.updateScore);
+    }
 
     updateScore = (birdsAlive: number, scoreBest: number, highscore: number) => {
         this.setState({birdsAlive: birdsAlive, scoreBest: scoreBest, highscore: highscore});
     }
 
     handleSpeedChange = (value: number) => {
+        g.gameSpeed = value;
         this.setState({gameSpeed: value});
     }
 
@@ -39,7 +46,7 @@ export default class App extends React.Component<{},State> {
 
                 <div className="mdc-top-app-bar--fixed-adjust">
                     <div id="canvas-wrapper" className="mdc-card mdc-elevation--z12">
-                        <Game gameSpeed={this.state.gameSpeed} updateScore={this.updateScore} />
+                        <Canvas start={this.start} />
                     
                         <Info 
                             birdsAlive={this.state.birdsAlive} 

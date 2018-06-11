@@ -1,6 +1,6 @@
-import { sketch } from "../components/Game";
 import g from "../globals";
 import Brain from "./Brain";
+import { sketch } from "./Game";
 import Pipe from "./pipe";
 
 export default class Bird {

@@ -1,4 +1,4 @@
-import { sketch } from "../components/Game";
+import { sketch } from "./Game";
 import g from "../globals";
 import Bird from "./bird";
 

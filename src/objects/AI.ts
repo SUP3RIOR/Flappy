@@ -1,6 +1,6 @@
-import { sketch } from "../components/Game";
 import g from "../globals";
 import Bird from "./Bird";
+import { sketch } from "./Game";
 
 export function nextGeneration() {
     resetGame();

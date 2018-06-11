@@ -1,22 +1,17 @@
-import * as React from 'react';
 import g from '../globals';
-import { nextGeneration } from '../objects/ai';
-import Bird from '../objects/bird';
-import Pipe from '../objects/pipe';
-
+import Bird from './Bird';
+import { nextGeneration } from './ai';
+import Pipe from './pipe';
 export var sketch: p5;
 
-interface Props {
-    gameSpeed: number;
-    updateScore: (birdsAlive: number, scoreBest: number, highscore: number) => void;
-}
-
-export default class Game extends React.Component<Props> {
+export default class Game {
     private tempCycles: number = 0;
     private bufferLeft: any;
     private bufferRight: any;
+    private updateScore: (birdsAlive: number, scoreBest: number, highscore: number) => void;
 
-    start = () => {
+    constructor(updateScore: (birdsAlive: number, scoreBest: number, highscore: number) => void) {
+        this.updateScore = updateScore;
         document.getElementById('start').style.display = 'none';
         sketch = new p5(this.init);
     }
@@ -54,7 +49,7 @@ export default class Game extends React.Component<Props> {
         this.bufferLeft.image(g.bgImg,0,0,600,400);
         this.bufferRight.image(g.bgImg,0,0,600,400);        
         
-        let cycles: number = this.props.gameSpeed + this.tempCycles;
+        let cycles: number = g.gameSpeed + this.tempCycles;
         if (cycles >= 1) {
             this.tempCycles = 0;
             for (let n = 0; n < cycles; n++) {
@@ -109,9 +104,9 @@ export default class Game extends React.Component<Props> {
         
         let scoreBest = 0;
         if (g.bestBird) {
-            let scoreBest = g.bestBird.score;
+            scoreBest = g.bestBird.score;
         }
-        this.props.updateScore(g.activeBirds.length, scoreBest, g.highScore);
+        this.updateScore(g.activeBirds.length, scoreBest, g.highScore);
     }
 
     private updateAllPipes() {
@@ -168,12 +163,4 @@ export default class Game extends React.Component<Props> {
             }
         }
     }
-
-    render() {
-        return (
-            <div id="canvas">
-                <button id="start" className="mdc-button mdc-button--raised" onClick={this.start}>Start</button>
-            </div>
-        );
-    }   
 }

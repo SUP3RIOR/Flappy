@@ -24,6 +24,7 @@ export default class g {
     private static _birgImg: p5.Image;
     private static _pipeTopImg: p5.Image;
     private static _pipeBotImg: p5.Image;
+    private static _gameSpeed: number = 1;
     //Editable
     private static _pipeSpacing: number;
     private static _pipeWidth: number;
@@ -158,5 +159,11 @@ export default class g {
     }
     static set jumpCooldown(jumpCooldown) {
         this._jumpCooldown = jumpCooldown;
+    }
+    static get gameSpeed(){
+        return this._gameSpeed;
+    }
+    static set gameSpeed(gameSpeed) {
+        this._gameSpeed = gameSpeed;
     }
 }

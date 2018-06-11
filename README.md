@@ -1,14 +1,10 @@
-# Flappy Bird AI
+# Flappy Bird Artificial Intelligence
 
-### NeuralNetwork
-#### Input Nodes
-1. x position of closest pipe
-2. top of closest pipe opening
-3. bottom of closest pipe opening
-4. bird's y position
-5. bird's y velocity
+### Install
+`npm install`  
 
+### Start Dev Server
+`npm start`
 
-
-npm install
-npm start
+### Build Application
+`npm run build`
